@@ -63,9 +63,10 @@ public class Principal {
         System.err.println(buscar(codigo, mapa));
     }
     
-    public String buscar(Integer codigo, HashMap<Integer, Persona> mapaFamilia) {
+    public String buscar(Integer codigo, HashMap<Integer, Persona> mapPersons) {
         System.out.println("Ingrese el documento : ");
         Integer cc = sc.nextInt();
+        String retorno = "";
 
         if (mapPersons.containsKey(cc)) {
             Persona person2 = mapPersons.get(cc);
@@ -113,6 +114,8 @@ public class Principal {
                 }
             }
         }
+    return retorno;
     }
+    
 
 }
