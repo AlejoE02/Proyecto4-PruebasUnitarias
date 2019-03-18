@@ -15,7 +15,6 @@ import javafx.util.converter.PercentageStringConverter;
  */
 public class Principal {
 
-    
     Scanner sc = new Scanner(System.in);
 
     public Principal() {
@@ -23,9 +22,9 @@ public class Principal {
     }
 
     public HashMap<Integer, Persona> llenarMapa() {
-        
+
         HashMap<Integer, Persona> mapaPersonas = new HashMap<>();
-        
+
         Persona hijo1 = new Persona(1111, "Diego", "Reyes");
         Persona hijo2 = new Persona(2222, "Sebastian", "Bustos");
         Persona hijo3 = new Persona(3333, "Santiago", "Bustos");
@@ -53,69 +52,61 @@ public class Principal {
         return mapaPersonas;
     }
 
-    public void ejecutar(){
-        
+    public void inicio() {
+
         System.out.print("Ingrese el codigo de la persona que desea buscar : ");
         Integer codigo = sc.nextInt();
-        
+
         HashMap<Integer, Persona> mapa = llenarMapa();
-        
+
         System.err.println(buscar(codigo, mapa));
     }
-    
-    public String buscar(Integer codigo, HashMap<Integer, Persona> mapPersons) {
-        System.out.println("Ingrese el documento : ");
-        Integer cc = sc.nextInt();
-        String retorno = "";
 
-        if (mapPersons.containsKey(cc)) {
-            Persona person2 = mapPersons.get(cc);
-            System.out.println(person2.getNombre());
-            for (Integer i1 : person2.familia.keySet()) {
-                Persona p = person2.familia.get(i1);
-                System.out.println("    HIJOS");
-                System.out.println("    " + p.getNombre());
-                for (Integer i2 : p.familia.keySet()) {
-                    Persona p2 = p.familia.get(i2);
-                    System.out.println("        NIETO");
-                    System.out.println("        " + p2.getNombre());
+    public String buscar(int codigo, HashMap<Integer, Persona> mapaFamilia) {
+        
+        String returnRta = "";
+        boolean existe=false;
+
+        for (Integer iterador_abuelo : mapaFamilia.keySet()) {
+            Persona abuelo = mapaFamilia.get(iterador_abuelo);
+            if (abuelo.getCedula()==codigo) {
+                returnRta = returnRta + "Persona : " + abuelo.getNombre();
+                existe = true;
+            }
+            for (Integer iterador_padre : abuelo.familia.keySet()) {
+                Persona padre = abuelo.familia.get(iterador_padre);
+                if (abuelo.getCedula() == codigo) {
+                    returnRta = returnRta + "\n     Hijo : " + padre.getNombre();
+                }
+                if (padre.getCedula() == codigo) {
+                    returnRta = returnRta + "\nPersona : " + padre.getNombre();
+                    returnRta = returnRta + "\n     Padre : " + abuelo.getNombre();
+                    existe=true;
+                }
+                for (Integer iterador_hijo : padre.familia.keySet()) {
+                    Persona hijo = padre.familia.get(iterador_hijo);
+                    if (abuelo.getCedula() == codigo) {
+                        returnRta = returnRta + "\n         Nieto : " + hijo.getNombre();
+                    }
+                    if (padre.getCedula() == codigo) {
+                        returnRta = returnRta + "\n     Hijo : " + hijo.getNombre();
+                    }
+                    if (hijo.getCedula() == codigo) {
+                        returnRta = returnRta + "Persona : " + hijo.getNombre();
+                        returnRta = returnRta + "\n     Padre : " + padre.getNombre();
+                        returnRta = returnRta + "\n         Abuelo : " + abuelo.getNombre();
+                        existe=true;
+                    }
 
                 }
+
             }
 
-        } else {
-            for (Integer iterador : mapPersons.keySet()) {
-                Persona person3 = mapPersons.get(iterador);
-                if (person3.familia.containsKey(cc)) {
-                    Persona person4 = person3.familia.get(cc);
-                    System.out.println("Persona");
-                    System.out.println(person4.getNombre());
-                    System.out.println("Padre de " + person4.getNombre());
-                    System.out.println(person3.getNombre());
-                    for (Integer i3 : person4.familia.keySet()) {
-                        Persona p3 = person4.familia.get(i3);
-                        System.out.println("        hijos de "+ person4.getNombre());
-                        System.out.println("        " + p3.getNombre());
-
-                    }
-                } else {
-                    for (Integer iterador2 : person3.familia.keySet()) {
-                        Persona person5 = person3.familia.get(iterador2);
-                        if (person5.familia.containsKey(cc)) {
-                            Persona person6 = person5.familia.get(cc);
-                            System.out.println("Persona");
-                            System.out.println(person6.getNombre());
-                            System.out.println("Padre de " + person6.getNombre());
-                            System.out.println(person5.getNombre());
-                            System.out.println("Abuelo de " + person6.getNombre());
-                            System.out.println(person3.getNombre());
-                        }
-                    }
-                }
-            }
         }
-    return retorno;
+        if(existe == false){
+            returnRta = "no existe la persona";
+        }
+        return returnRta;
     }
-    
 
 }
