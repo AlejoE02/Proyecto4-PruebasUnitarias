@@ -40,7 +40,7 @@ public class TestMapas {
     }*/
 
     @Test
-    public void pruebaPersona() {
+    public void pruebaAbuelo() {
         Principal p = new Principal();
         HashMap<Integer, Persona> mapa = p.llenarMapa();
 
