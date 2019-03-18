@@ -57,8 +57,9 @@ public class TestMapas {
         Principal p = new Principal();
         HashMap<Integer, Persona> mapa = p.llenarMapa();
 
-        String resultado = p.buscar(1234, mapa);
+        boolean resultado = p.existe(1928, mapa);
 
-        assertEquals(resultado, "no existe la persona");
+        //assertTrue(resultado);
+        assertFalse(resultado);
     }
 }

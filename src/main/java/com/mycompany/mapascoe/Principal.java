@@ -65,13 +65,11 @@ public class Principal {
     public String buscar(int codigo, HashMap<Integer, Persona> mapaFamilia) {
         
         String returnRta = "";
-        boolean existe=false;
 
         for (Integer iterador_abuelo : mapaFamilia.keySet()) {
             Persona abuelo = mapaFamilia.get(iterador_abuelo);
             if (abuelo.getCedula()==codigo) {
                 returnRta = returnRta + "Persona : " + abuelo.getNombre();
-                existe = true;
             }
             for (Integer iterador_padre : abuelo.familia.keySet()) {
                 Persona padre = abuelo.familia.get(iterador_padre);
@@ -81,7 +79,6 @@ public class Principal {
                 if (padre.getCedula() == codigo) {
                     returnRta = returnRta + "\nPersona : " + padre.getNombre();
                     returnRta = returnRta + "\n     Padre : " + abuelo.getNombre();
-                    existe=true;
                 }
                 for (Integer iterador_hijo : padre.familia.keySet()) {
                     Persona hijo = padre.familia.get(iterador_hijo);
@@ -95,7 +92,7 @@ public class Principal {
                         returnRta = returnRta + "Persona : " + hijo.getNombre();
                         returnRta = returnRta + "\n     Padre : " + padre.getNombre();
                         returnRta = returnRta + "\n         Abuelo : " + abuelo.getNombre();
-                        existe=true;
+                        
                     }
 
                 }
@@ -103,10 +100,43 @@ public class Principal {
             }
 
         }
-        if(existe == false){
-            returnRta = "no existe la persona";
-        }
         return returnRta;
+    }
+    
+    public boolean existe(int codigo, HashMap<Integer, Persona> mapaFamilia) {
+        
+        boolean existe=false;
+
+        for (Integer iterador_abuelo : mapaFamilia.keySet()) {
+            Persona abuelo = mapaFamilia.get(iterador_abuelo);
+            if (abuelo.getCedula()==codigo) {
+                existe = true;
+            }
+            for (Integer iterador_padre : abuelo.familia.keySet()) {
+                Persona padre = abuelo.familia.get(iterador_padre);
+                if (abuelo.getCedula() == codigo) {
+                    existe=true;
+                }
+                if (padre.getCedula() == codigo) {
+                    existe=true;
+                }
+                for (Integer iterador_hijo : padre.familia.keySet()) {
+                    Persona hijo = padre.familia.get(iterador_hijo);
+                    if (abuelo.getCedula() == codigo) {
+                        existe=true;
+                    }
+                    if (padre.getCedula() == codigo) {
+                        existe=true;
+                    }
+                    if (hijo.getCedula() == codigo) {
+                        existe=true;
+                    }
+                }
+
+            }
+
+        }
+        return existe;
     }
 
 }
